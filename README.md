@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - uses: danieljimeneznz/ensure-files-changed@v1.1.1
+      - uses: danieljimeneznz/ensure-files-changed@v1.2.0
         with:
           file-names: '["package.json", "READMD.md"]'
           token: ${{ secrets.GITHUB_TOKEN }}

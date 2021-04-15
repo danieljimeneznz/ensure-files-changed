@@ -5962,7 +5962,7 @@ const core = __nccwpck_require__(186);
 const { getOctokit, context } = __nccwpck_require__(438);
 
 async function run() {
-  const githubToken = core.getInput("github-token", { required: true });
+  const githubToken = core.getInput("token", { required: true });
   const fileNames = JSON.parse(core.getInput("file-names", { required: true }));
 
   if (typeof fileNames !== "object" || !fileNames.length) {
