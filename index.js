@@ -2,7 +2,7 @@ const core = require("@actions/core");
 const { getOctokit, context } = require("@actions/github");
 
 async function run() {
-  const githubToken = core.getInput("github-token", { required: true });
+  const githubToken = core.getInput("token", { required: true });
   const fileNames = JSON.parse(core.getInput("file-names", { required: true }));
 
   if (typeof fileNames !== "object" || !fileNames.length) {
@@ -22,7 +22,7 @@ async function run() {
       const endPoint = compareURL.lastIndexOf("/");
 
       if (endPoint === -1) {
-        core.setFailed("Not found endpoint");
+        core.setFailed("Endpoint not found");
       }
 
       return compareURL.substring(endPoint + 1).split("...");
