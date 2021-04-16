@@ -3,8 +3,8 @@ description: "Ensure Files Changed"
 author: "danieljimeneznz"
 
 inputs:
-  file-names:
-    description: "An array of strings that represent the files that should be included in the PR."
+  file-patterns:
+    description: "An array of patterns that represent the files that should be included in the PR."
     required: true
   token:
     description: "The GitHub token used to create an authenticated client."

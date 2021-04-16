@@ -1,13 +1,13 @@
 # Ensure Files Changed
 
 This action ensures that pull requests contain changes to the files listed in
-the `file-names` array specified.
+the `file-patterns` array specified.
 
-Full credit to: [syeutyu/validate-changed-files](https://github.com/syeutyu/validate-changed-files)
+Credit to [syeutyu/validate-changed-files](https://github.com/syeutyu/validate-changed-files) for providing the base code
 
 ## Inputs
 
-- `file-names`: An array of strings that represent the files that should be included in the PR.
+- `file-patterns`: An array of patterns that represent the files that should be included in the PR.
 - `token`: The GitHub token used to create an authenticated client.
 
 ## Example
@@ -28,6 +28,6 @@ jobs:
       - run: npm ci
       - uses: danieljimeneznz/ensure-files-changed@v1.2.0
         with:
-          file-names: '["package.json", "READMD.md"]'
+          file-patterns: '["package.json", "*.md"]'
           token: ${{ secrets.GITHUB_TOKEN }}
 ```

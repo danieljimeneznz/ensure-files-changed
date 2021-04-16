@@ -1,11 +1,12 @@
 const core = require("@actions/core");
 const { getOctokit, context } = require("@actions/github");
+const minimatch = require("minimatch");
 
 async function run() {
   const githubToken = core.getInput("token", { required: true });
-  const fileNames = JSON.parse(core.getInput("file-names", { required: true }));
+  const filePatterns = JSON.parse(core.getInput("file-patterns", { required: true }));
 
-  if (typeof fileNames !== "object" || !fileNames.length) {
+  if (typeof filePatterns !== "object" || !filePatterns.length) {
     core.setFailed("Please fill in the correct file names");
   }
 
@@ -35,15 +36,20 @@ async function run() {
     head
   })).data.files.map(f => f.filename);
 
-  const isAllIncluded = fileNames.every(fileName =>changedFileNames.includes(fileName));
+  const isAllIncluded = filePatterns.every(
+    (filePattern) =>
+      !!changedFileNames.find((file) => minimatch(file, filePattern))
+  );
 
   if (isAllIncluded) {
     core.setOutput("success", true);
   } else {
     core.setFailed(`
-      Please check your changed files
-      Expect: ${JSON.stringify(fileNames, null, 2)}
-      Actual: ${JSON.stringify(changedFileNames, null, 2)}
+      Please check your changed files\nExpected: ${JSON.stringify(
+        filePatterns,
+        null,
+        2
+      )}\nActual: ${JSON.stringify(changedFileNames, null, 2)}
     `);
   }
 }
