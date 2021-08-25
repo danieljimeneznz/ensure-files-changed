@@ -1,10 +1,12 @@
 {
   "name": "ensure-files-changed",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Github action to validate changed files on a pull request",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build index.js --license licenses.txt"
+    "changelog": "kacl lint && kacl release",
+    "test": "mocha",
+    "build": "ncc build src/index.js --license licenses.txt"
   },
   "repository": {
     "type": "git",
@@ -16,11 +18,15 @@
   "author": "danieljimeneznz",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.2.7",
-    "@actions/github": "4.0.0",
+    "@actions/core": "1.5.0",
+    "@actions/github": "5.0.0",
     "minimatch": "3.0.4"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.28.3"
+    "@brightcove/kacl": "0.1.11",
+    "@vercel/ncc": "0.29.2",
+    "chai": "4.3.4",
+    "mocha": "9.1.0",
+    "sinon": "11.1.2"
   }
 }

@@ -1,11 +1,14 @@
 name: "Ensure Files Changed"
-description: "Ensure Files Changed"
+description: "Ensures files specified were changed in a PR, or can be used to ensure files were not changed"
 author: "danieljimeneznz"
 
 inputs:
-  file-patterns:
+  require-change-file-patterns:
     description: "An array of patterns that represent the files that should be included in the PR."
-    required: true
+    required: false
+  prevent-modification-file-patterns:
+    description: "An array of patterns that represent the files that should not change in the PR."
+    required: false
   token:
     description: "The GitHub token used to create an authenticated client."
     required: true
