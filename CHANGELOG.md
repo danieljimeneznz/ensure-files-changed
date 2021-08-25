@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.2] - 2021-08-25
+### Fixed
+- Checked in build of action
+
 ## [3.0.1] - 2021-08-25
 ### Fixed
 - Using new `compareCommitsWithBaseHead` github endpoint as previously used endpoint removed in 5.0.0 upgrade
@@ -24,5 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - @actions/core     1.2.7  →   1.5.0
   - @actions/github   4.0.0  →   5.0.0
 
-[Unreleased]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.1...HEAD
+[Unreleased]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.2...HEAD
+[3.0.2]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.0...v3.0.1
