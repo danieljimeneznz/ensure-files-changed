@@ -2,10 +2,10 @@ const core = require("@actions/core");
 const { getOctokit, context } = require("@actions/github");
 const minimatch = require("minimatch");
 
-async function getCommitDetails(context) {
+async function getCommitBaseHead(context) {
   if (context.eventName === "pull_request") {
     const pr = context.payload.pull_request;
-    return [pr.base.sha, pr.head.sha];
+    return `${pr.base.sha}...${pr.head.sha}`;
   } else {
     const compareURL = context.payload.compare;
     const endPoint = compareURL.lastIndexOf("/");
@@ -14,7 +14,7 @@ async function getCommitDetails(context) {
       core.setFailed("Endpoint not found");
     }
 
-    return compareURL.substring(endPoint + 1).split("...");
+    return compareURL.substring(endPoint + 1);
   }
 }
 
@@ -41,11 +41,10 @@ async function main(
     return;
   }
 
-  const [base, head] = await getCommitDetails(context);
-  const commitChanges = await client.repos.compareCommits({
+  const basehead = await getCommitBaseHead(context);
+  const commitChanges = await client.rest.repos.compareCommitsWithBaseHead({
     ...context.repo,
-    base,
-    head,
+    basehead
   });
   const changedFileNames = commitChanges.data.files.map((f) => f.filename);
 

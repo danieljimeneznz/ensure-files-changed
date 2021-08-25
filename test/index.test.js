@@ -24,15 +24,17 @@ describe("index.js", () => {
       await main(
         context,
         {
-          repos: {
-            compareCommits: () => ({
-              data: {
-                files: [
-                  { filename: "package.json" },
-                  { filename: "README.md" },
-                ],
-              },
-            }),
+          rest: {
+            repos: {
+              compareCommitsWithBaseHead: () => ({
+                data: {
+                  files: [
+                    { filename: "package.json" },
+                    { filename: "README.md" },
+                  ],
+                },
+              }),
+            },
           },
         },
         ["package.json"],
@@ -46,15 +48,17 @@ describe("index.js", () => {
       await main(
         context,
         {
-          repos: {
-            compareCommits: () => ({
-              data: {
-                files: [
-                  { filename: "package.json" },
-                  { filename: "LICENSE.md" },
-                ],
-              },
-            }),
+          rest: {
+            repos: {
+              compareCommitsWithBaseHead: () => ({
+                data: {
+                  files: [
+                    { filename: "package.json" },
+                    { filename: "LICENSE.md" },
+                  ],
+                },
+              }),
+            },
           },
         },
         ["package.json"]
@@ -67,12 +71,14 @@ describe("index.js", () => {
       await main(
         context,
         {
-          repos: {
-            compareCommits: () => ({
-              data: {
-                files: [{ filename: "LICENSE.md" }],
-              },
-            }),
+          rest: {
+            repos: {
+              compareCommitsWithBaseHead: () => ({
+                data: {
+                  files: [{ filename: "LICENSE.md" }],
+                },
+              }),
+            },
           },
         },
         ["package.json"]
@@ -85,12 +91,14 @@ describe("index.js", () => {
       await main(
         context,
         {
-          repos: {
-            compareCommits: () => ({
-              data: {
-                files: [{ filename: "pacakge.json" }],
-              },
-            }),
+          rest: {
+            repos: {
+              compareCommitsWithBaseHead: () => ({
+                data: {
+                  files: [{ filename: "pacakge.json" }],
+                },
+              }),
+            },
           },
         },
         null,
