@@ -26,7 +26,7 @@ describe("index.js", () => {
         {
           rest: {
             repos: {
-              compareCommitsWithBaseHead: () => ({
+              compareCommitsWithBasehead: () => ({
                 data: {
                   files: [
                     { filename: "package.json" },
@@ -50,7 +50,7 @@ describe("index.js", () => {
         {
           rest: {
             repos: {
-              compareCommitsWithBaseHead: () => ({
+              compareCommitsWithBasehead: () => ({
                 data: {
                   files: [
                     { filename: "package.json" },
@@ -73,7 +73,7 @@ describe("index.js", () => {
         {
           rest: {
             repos: {
-              compareCommitsWithBaseHead: () => ({
+              compareCommitsWithBasehead: () => ({
                 data: {
                   files: [{ filename: "LICENSE.md" }],
                 },
@@ -93,7 +93,7 @@ describe("index.js", () => {
         {
           rest: {
             repos: {
-              compareCommitsWithBaseHead: () => ({
+              compareCommitsWithBasehead: () => ({
                 data: {
                   files: [{ filename: "pacakge.json" }],
                 },

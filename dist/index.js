@@ -7435,7 +7435,7 @@ async function main(
   }
 
   const basehead = await getCommitBaseHead(context);
-  const commitChanges = await client.rest.repos.compareCommitsWithBaseHead({
+  const commitChanges = await client.rest.repos.compareCommitsWithBasehead({
     ...context.repo,
     basehead
   });
