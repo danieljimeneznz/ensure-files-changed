@@ -1,6 +1,6 @@
 {
   "name": "ensure-files-changed",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Github action to validate changed files on a pull request",
   "main": "dist/index.js",
   "scripts": {

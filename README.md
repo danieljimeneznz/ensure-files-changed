@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - uses: danieljimeneznz/ensure-files-changed@v4.0.0
+      - uses: danieljimeneznz/ensure-files-changed@v4.0.1
         with:
           require-changes-to:
             - "package.json"
