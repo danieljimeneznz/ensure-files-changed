@@ -8,9 +8,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: danieljimeneznz/ensure-files-changed@v4.0.1
         with:
-          require-changes-to:
-            - "dist/index.js"
-            - "CHANGELOG.md"
-          prevent-changes-to:
-            - "LICENSE.md"
+          require-changes-to: |
+            "dist/index.js"
+            "CHANGELOG.md"
+          prevent-changes-to: |
+            "LICENSE.md"
           token: ${{ secrets.GITHUB_TOKEN }}
