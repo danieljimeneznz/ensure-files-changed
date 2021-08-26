@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.0] - 2021-08-26
+### Added
+- GitHub workflow to ensure `dist/index.js` file changes when a PR is created.
+
+### Changed
+- Input names and type, these now take in a list of files/globs, see README.md for details
+  - `require-change-file-patterns` is now `require-changes-to`
+  - `prevent-modification-file-patterns` is now`prevent-changes-to`
+
 ## [3.0.3] - 2021-08-25
 ### Fixed
 - Typo in `compareCommitsWithBasehead` function call
@@ -32,7 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - @actions/core     1.2.7  →   1.5.0
   - @actions/github   4.0.0  →   5.0.0
 
-[Unreleased]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.3...HEAD
+[Unreleased]: https://github.com/syeutyu/validate-changed-files/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.3...v4.0.0
 [3.0.3]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.2...v3.0.3
 [3.0.2]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/syeutyu/validate-changed-files/compare/v3.0.0...v3.0.1
