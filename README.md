@@ -3,7 +3,6 @@
 This action ensures that pull requests contain changes to the files listed in
 the `require-change-file-patterns` array specified, it will fail if these files were not changed or if files were changed that exist in the `prevent-modification-file-patterns` array.
 
-
 ## Inputs
 
 - `require-changes-to`: A list of files (or glob patterns) that represent the files that should be modified by a PR.
@@ -28,11 +27,11 @@ jobs:
       - run: npm ci
       - uses: danieljimeneznz/ensure-files-changed@v4.0.1
         with:
-          require-changes-to:
-            - "package.json"
-            - "*.md"
-          prevent-changes-to:
-            - "LICENSE.md"
+          require-changes-to: |
+            package.json
+            *.md
+          prevent-changes-to: |
+            LICENSE.md
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 

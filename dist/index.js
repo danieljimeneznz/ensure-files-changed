@@ -7424,15 +7424,13 @@ async function main(
   });
   const changedFiles = commitChanges.data.files.map((f) => f.filename);
 
-  const requiredFileChangesIncluded =
-    requiredFileChanges.every(
-      (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
-    );
+  const requiredFileChangesIncluded = requiredFileChanges.every(
+    (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
+  );
 
-  const preventedFileChangedIncluded =
-    preventFileChanges.every(
-      (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
-    );
+  const preventedFileChangedIncluded = preventFileChanges.every(
+    (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
+  );
 
   if (requiredFileChangesIncluded && !preventedFileChangedIncluded) {
     core.setOutput("success", true);
