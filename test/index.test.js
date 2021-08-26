@@ -1,6 +1,7 @@
 const sinon = require("sinon");
 const core = require("@actions/core");
 const { main } = require("../src/index");
+const { expect } = require("chai");
 
 describe("index.js", () => {
   const token = "1234";
@@ -18,92 +19,133 @@ describe("index.js", () => {
   afterEach(sinon.verifyAndRestore);
 
   describe("main()", () => {
-    it("should succeed if files changed are in the requiredFileChangesIncluded but not in the preventedFileChangedIncluded", async () => {
-      coreMock.expects("setOutput").withArgs("success", true).once();
+    describe("success", () => {
+      it("should succeed if only required files changed", async () => {
+        coreMock.expects("setOutput").withArgs("success", true).once();
 
-      await main(
-        context,
-        {
-          rest: {
-            repos: {
-              compareCommitsWithBasehead: () => ({
-                data: {
-                  files: [
-                    { filename: "package.json" },
-                    { filename: "README.md" },
-                  ],
-                },
-              }),
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [
+                      { filename: "package.json" },
+                      { filename: "README.md" },
+                    ],
+                  },
+                }),
+              },
             },
           },
-        },
-        ["package.json"],
-        ["LICENSE.md"]
-      );
+          ["package.json"],
+          ["LICENSE.md"]
+        );
+
+        expect(result).to.be.true;
+      });
+
+      it("should succeed if required files changed with pattern overlap but files prevented from changing, did not change", async () => {
+        coreMock.expects("setOutput").withArgs("success", true).once();
+
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [
+                      { filename: "package.json" },
+                      { filename: "README.md" },
+                    ],
+                  },
+                }),
+              },
+            },
+          },
+          ["package.json", "*.md"],
+          ["LICENSE.md"]
+        );
+
+        expect(result).to.be.true;
+      });
     });
 
-    it("should succeed if the requiredFileChangesIncluded and preventedFileChangedIncluded are missing", async () => {
-      coreMock.expects("setOutput").withArgs("success", true).once();
+    describe("failure", () => {
+      it("should fail if required files are not changed", async () => {
+        coreMock.expects("setFailed").once();
 
-      await main(
-        context,
-        {
-          rest: {
-            repos: {
-              compareCommitsWithBasehead: () => ({
-                data: {
-                  files: [
-                    { filename: "package.json" },
-                    { filename: "LICENSE.md" },
-                  ],
-                },
-              }),
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [{ filename: "LICENSE.md" }],
+                  },
+                }),
+              },
             },
           },
-        },
-        ["package.json"]
-      );
-    });
+          ["package.json"],
+          undefined
+        );
 
-    it("should fail if files changed are not in the requiredFileChangesIncluded", async () => {
-      coreMock.expects("setFailed").once();
+        expect(result).to.be.false;
+      });
 
-      await main(
-        context,
-        {
-          rest: {
-            repos: {
-              compareCommitsWithBasehead: () => ({
-                data: {
-                  files: [{ filename: "LICENSE.md" }],
-                },
-              }),
+      it("should fail if files prevented from changing were changed", async () => {
+        coreMock.expects("setFailed").once();
+
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [{ filename: "package.json" }],
+                  },
+                }),
+              },
             },
           },
-        },
-        ["package.json"]
-      );
-    });
+          undefined,
+          ["package.json"]
+        );
 
-    it("should fail if files changed are in the preventedFileChangedIncluded", async () => {
-      coreMock.expects("setOutput").once();
+        expect(result).to.be.false;
+      });
 
-      await main(
-        context,
-        {
-          rest: {
-            repos: {
-              compareCommitsWithBasehead: () => ({
-                data: {
-                  files: [{ filename: "pacakge.json" }],
-                },
-              }),
+      it("should fail if required files changed with pattern overlap but files prevented from changing, changed", async () => {
+        coreMock.expects("setFailed").once();
+
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [
+                      { filename: "package.json" },
+                      { filename: "README.md" },
+                      { filename: "LICENSE.md" }
+                    ],
+                  },
+                }),
+              },
             },
           },
-        },
-        null,
-        ["package.json"]
-      );
+          ["package.json", "*.md"],
+          ["LICENSE.md"]
+        );
+
+        expect(result).to.be.false;
+      });
     });
   });
 });

@@ -21,76 +21,53 @@ async function getCommitBaseHead(context) {
 async function main(
   context,
   client,
-  requiredChangePatterns,
-  preventModificationPatterns
+  requiredFileChanges = [],
+  preventFileChanges = []
 ) {
-  if (requiredChangePatterns && typeof requiredChangePatterns !== "object") {
-    core.setFailed(
-      "Please fill in the requiredChangePatterns names as an object"
-    );
-    return;
-  }
-
-  if (
-    preventModificationPatterns &&
-    typeof preventModificationPatterns !== "object"
-  ) {
-    core.setFailed(
-      "Please fill in the preventModificationPatterns names as an object"
-    );
-    return;
-  }
-
   const basehead = await getCommitBaseHead(context);
   const commitChanges = await client.rest.repos.compareCommitsWithBasehead({
     ...context.repo,
-    basehead
+    basehead,
   });
-  const changedFileNames = commitChanges.data.files.map((f) => f.filename);
+  const changedFiles = commitChanges.data.files.map((f) => f.filename);
 
-  const requiredFileChangesIncluded = !!requiredChangePatterns
-    ? requiredChangePatterns.every(
-        (pattern) => !!changedFileNames.find((file) => minimatch(file, pattern))
-      )
-    : true;
+  const requiredFileChangesIncluded =
+    requiredFileChanges.every(
+      (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
+    );
 
-  const preventedFileChangedIncluded = !!preventModificationPatterns
-    ? preventModificationPatterns.every(
-        (pattern) => !!changedFileNames.find((file) => minimatch(file, pattern))
-      )
-    : false;
+  const preventedFileChangedIncluded =
+    preventFileChanges.every(
+      (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
+    );
 
   if (requiredFileChangesIncluded && !preventedFileChangedIncluded) {
     core.setOutput("success", true);
-    return;
+    return true;
   }
 
   core.setFailed(`
     Files changed:\n
-    ${JSON.stringify(changedFileNames, null, 2)}\n\n
+    ${JSON.stringify(changedFiles, null, 2)}\n\n
     Please ensure you have changed all files that match the following patterns:\n
-    ${JSON.stringify(requiredFileChangesIncluded, null, 2)}\n\n
+    ${JSON.stringify(requiredFileChanges, null, 2)}\n\n
     Please ensure you have not changed any of the files that match the following patterns:\n
-    ${JSON.stringify(preventedFileChangedIncluded, null, 2)}\n\n
+    ${JSON.stringify(preventFileChanges, null, 2)}\n\n
   `);
+  return false;
 }
 
 async function run() {
   const githubToken = core.getInput("token", { required: true });
-  const requiredChangePatterns = JSON.parse(
-    core.getInput("require-change-file-patterns", { required: false })
-  );
-  const preventModificationPatterns = JSON.parse(
-    core.getInput("prevent-modification-file-patterns", { required: false })
-  );
+  const requiredFileChanges = core.getMultilineInput("require-changes-to", {
+    required: false,
+  });
+  const preventFileChanges = core.getMultilineInput("prevent-changes-to", {
+    required: false,
+  });
 
   const client = getOctokit(githubToken);
-  await main(
-    context,
-    client,
-    requiredChangePatterns,
-    preventModificationPatterns
-  );
+  await main(context, client, requiredFileChanges, preventFileChanges);
 }
 
 run();

@@ -5,8 +5,8 @@ the `require-change-file-patterns` array specified, it will fail if these files 
 
 ## Inputs
 
-- `require-change-file-patterns`: An array of patterns that represent the files that should be changed in the PR.
-- `prevent-modification-file-patterns`: An array of patterns that represent the files that should not change in the PR.
+- `require-changes-to`: A list of files (or glob patterns) that represent the files that should be modified by a PR.
+- `prevent-changes-to`: A list of files (or glob patterns) that represent the files that should not be modified by a PR.
 - `token`: The GitHub token used to create an authenticated client.
 
 ## Example
@@ -25,10 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - uses: danieljimeneznz/ensure-files-changed@v1.2.0
+      - uses: danieljimeneznz/ensure-files-changed@v4.0.0
         with:
-          require-change-file-patterns: '["package.json", "*.md"]'
-          prevent-modification-file-patterns: '["LICENSE.md"]'
+          require-changes-to:
+            - "package.json"
+            - "*.md"
+          prevent-changes-to:
+            - "LICENSE.md"
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 

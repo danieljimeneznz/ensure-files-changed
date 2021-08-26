@@ -3,11 +3,11 @@ description: "Ensures files specified were changed in a PR, or can be used to en
 author: "danieljimeneznz"
 
 inputs:
-  require-change-file-patterns:
-    description: "An array of patterns that represent the files that should be included in the PR."
+  require-changes-to:
+    description: "A list of files (or glob patterns) that represent the files that should be modified by a PR."
     required: false
-  prevent-modification-file-patterns:
-    description: "An array of patterns that represent the files that should not change in the PR."
+  prevent-changes-to:
+    description: "A list of files (or glob patterns) that represent the files that should not be modified by a PR."
     required: false
   token:
     description: "The GitHub token used to create an authenticated client."
