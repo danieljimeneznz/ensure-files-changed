@@ -25,13 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - uses: danieljimeneznz/ensure-files-changed@v4.0.1
+      - uses: danieljimeneznz/ensure-files-changed@v4.1.0
         with:
-          require-changes-to:
-            - "package.json"
-            - "*.md"
-          prevent-changes-to:
-            - "LICENSE.md"
+          require-changes-to: |
+            package.json
+            *.md
+          prevent-changes-to: |
+            LICENSE.md
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
