@@ -3,6 +3,7 @@
 This action ensures that pull requests contain changes to the files listed in
 the `require-change-file-patterns` array specified, it will fail if these files were not changed or if files were changed that exist in the `prevent-modification-file-patterns` array.
 
+
 ## Inputs
 
 - `require-changes-to`: A list of files (or glob patterns) that represent the files that should be modified by a PR.
