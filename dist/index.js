@@ -7428,7 +7428,7 @@ async function main(
     (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
   );
 
-  const preventedFileChangedIncluded = preventFileChanges.every(
+  const preventedFileChangedIncluded = preventFileChanges.length > 0 && preventFileChanges.every(
     (pattern) => !!changedFiles.find((file) => minimatch(file, pattern))
   );
 
