@@ -71,6 +71,58 @@ describe("index.js", () => {
 
         expect(result).to.be.true;
       });
+
+      it("should succeed if required files changed but files prevented from changes is empty", async () => {
+        coreMock.expects("setOutput").withArgs("success", true).once();
+
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [
+                      { filename: "package.json" },
+                      { filename: "README.md" },
+                    ],
+                  },
+                }),
+              },
+            },
+          },
+          ["package.json", "*.md"],
+          undefined
+        );
+
+        expect(result).to.be.true;
+      });
+
+      it("should succeed if files prevented from changing did not change and require file changes is empty", async () => {
+        coreMock.expects("setOutput").withArgs("success", true).once();
+
+        const result = await main(
+          context,
+          {
+            rest: {
+              repos: {
+                compareCommitsWithBasehead: () => ({
+                  data: {
+                    files: [
+                      { filename: "package.json" },
+                      { filename: "README.md" },
+                    ],
+                  },
+                }),
+              },
+            },
+          },
+          undefined,
+          ["LICENSE.md"],
+        );
+
+        expect(result).to.be.true;
+      });
     });
 
     describe("failure", () => {
